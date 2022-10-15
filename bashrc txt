@@ -1,0 +1,145 @@
+----Beginning of setting terminal command line prompt colors----BEGINNING
+
+
+#These codes set the terminal command line with my choices, colors and info.
+
+#Setting up color choices:
+orange=$(tput setaf 166);
+yellow=$(tput setaf 228);
+green=$(tput setaf 71);
+white=$(tput setaf 15);
+blue=$(tput setaf 27);
+red=$(tput setaf 9);
+pink=$(tput setaf 200);
+
+
+#Bolding all info statements and resetting color to default within command line.
+bold=$(tput bold);
+reset=$(tput sgr0);
+
+#Setting colors before each command line information that will be printed (username, host, working directory, shell, etc.)
+
+#Bolding all outputs hereafter:
+PS1="\[${bold}\]\n";
+
+
+#Adding date and time at the begining and first line of prompt.
+PS1+="\[${white}\]\d ";  #adding date (Day - Month - Number of month)
+PS1+="\[${red}\]@ "; #changing color and adding @
+PS1+="\[${white}\]\@";  #adding time (am/pm)
+
+#Adding the FULL PATH after and in the same line with the date/time.
+PS1+="\[${green}\]   \w";  #working directory PATH WITH "w" or just Current Working Directory with "W"
+
+PS1+="\n";  #newline
+#PS1+="\[${white}\]  user ";
+
+PS1+="\[${orange}\]\u";  #username
+PS1+="\[${white}\] on ";
+PS1+="\[${yellow}\]\h";  #host
+PS1+="\[${white}\]  shell ";
+PS1+="\[${blue}\]\s" ; #Adding "shell-bash" to prompt line
+
+#PS1+="\[${white}\]  PATH "; #IF "w" is used in the third line after this command.  Also change the 
+# settings.
+#OR
+PS1+="\[${green}\]  WrkDir ";  #IF "W" is used in next command.
+PS1+="\[${white}\]\W";  #working directory PATH WITH "w" or just Current Working Directory with "W"
+#I like this setting with WrkDir best because, if I want to see PATH I can just "pwd" to see PATH.
+
+
+#THESE NEXT 5 LINES DISPLAY THE GIT BRANCH WITHIN THE BASH COMMAND PROMPT LINE AND SETS ITS COLORS:
+PS1+="\[${red}\]  GitBr"
+parse_git_branch() {
+git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+PS1+="\[${red}\]\$(parse_git_branch)";
+
+
+
+PS1+="\n";  #newline
+PS1+="\[${white}\]\$ \[${reset}\]";  # '$' (and reset color)
+
+#export PS1 - puts together all the above (PS1 and  PS1+=) lines together and CREATES your bash prompt line information and coloring.
+
+export PS1;
+
+#---END - END of setting terminal command line prompt information and colors---END - END
+
+
+#Causes python to run python3 when python is selected.
+alias python=python3
+alias python2=python3
+
+
+#Eliminates the ZSH message on terminal bootup IF Mac preferences 
+#have /bin/bash set in the USERS advanced settings.
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+
+#This sets the colors for my (ls) command and I am using a tool to get the LSCOLORS code below at this URL: 
+#https://geoff.greer.fm/lscolors/
+
+export CLICOLOR=1
+export LSCOLORS=CxFxDxFAExBEGBEFABCHBH
+
+
+#Sorting Directories together: The below did not work???
+#ls = "ls --color=auto --group-directories-first -v -la"
+
+
+#This command changes by (> character) to "Keep typing buddy ..." To make it clear what is needed - the (> character) pops us and it 
+is not clear that more typing or input is required.
+PS2="Keep typing buddy ..."
+
+
+#This command/alias assures that my systems uses nano version 6.3 that I installed on 5-4-22:
+alias nano='/usr/local/bin/nano'
+
+#This command should cause line numbers to appear in nano edited and created files:
+alias nano='nano -l'
+
+
+
+#BELOW HERE ARE MY ALIASES ADDED AFTER 6-22-22:
+
+#ALIAS to make lll = "ls -la | less" for a quick scroll through by page 
+#of a list of full files/directories in my current directory.
+alias lll='ls -lah | cat -n | less'
+alias ll='ls -a'
+
+#ALIAS - Making the remove command verbose when I remove/delete a file:
+alias rm="rm -v"
+
+
+#ALIAS to find details on the IP address of my MacBook Pro:
+alias ip='ifconfig | less'
+
+#ALIAS to make python run python3 when it is selected:
+alias python=python3
+
+#ALIAS to make pip run pip3 when it is selected:
+alias pip=pip3
+alias python3.9=python3
+
+
+#ALIAS to make Xcode = Xcode11.4.1
+alias Xcode=Xcode11.4.1
+
+#ALIAS to be able to run the fillowing commands once I have apt installed:
+alias uuu='sudo apt update && sudo apt full-upgrade && sudo apt update'
+alias uu='sudo apt update && sudo apt upgrade && sudo apt update'
+
+#ALIAS to see if I can get grep to run ggrep with GNU grep:
+alias grep='ggrep'
+
+
+export PATH="$PATH:/Users/MACK/bills-bin"
+export PATH="$PATH:/Users/MACK/Library/Python/3.10/bin"
+
+
+
+#Adding the PATH for JAVA_HOME:
+#This command set sets JAVA_HOME so that it is recognized by apt and other applications:
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-18.0.2.1.jdk/Contents/Home
+#Moved to .bash_profile on 9-16-22.  AND THIS WORKED IN .bash_profile
